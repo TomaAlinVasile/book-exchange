@@ -183,9 +183,96 @@ footer a{
   }
   
   .login-button:hover {
-    background-color: #45a049; 
+    background-color: #a07f45; 
+  }
+  .signup-button:hover {
+    background-color: #a07f45; 
+  }
+  .logout-button:hover {
+    background-color: #a07f45; 
   }
 
+  .book-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  header {
+    text-align: center;
+  }
+  
+  .book-details {
+    margin-bottom: 20px;
+  }
+  
+  .live-chat {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .message-box {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+  }
+  
+  .message {
+    background-color: #f2f2f2;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+  }
+  
+  .message-input-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  #message-input {
+    flex-grow: 1;
+    margin-right: 10px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button {
+    padding: 5px 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  .live-chat {
+    max-width: 800px;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  #chat-messages {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  #chat-messages div {
+    align-self: flex-start;
+    background-color: #e0e0e0;
+    padding: 8px;
+    margin: 4px 0;
+    border-radius: 8px;
+    max-width: 70%;
+    word-wrap: break-word;
+  }
 
 @media only screen and (max-width: 600px){
     header{
