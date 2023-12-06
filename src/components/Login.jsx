@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
 
 const LoginForm = () => {
-  // State for storing user input
+ 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  // Function to handle login button click
+ 
   const handleLogin = () => {
-    // Perform validation (you can add more complex validation here)
+    
     if (!username || !password) {
       alert('Please enter both username and password');
       return;
     }
 
-    // Assuming a simple check for a hardcoded username and password
+    
     if (username === 'yourUsername' && password === 'yourPassword') {
       alert('Login successful!');
-      // Perform additional actions after successful login (e.g., redirect)
+     
     } else {
       alert('Invalid username or password');
     }
