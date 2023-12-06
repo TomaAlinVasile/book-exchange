@@ -46,38 +46,38 @@ const [newPassword, setNewPassword] = useState('');
             const data = await response.json();
             setUserData(data);
         
-            // Log the username of user1
+            
             const emailOfUser1 = data && data.user1 && data.user1.email;
             console.log('Username of user1:', emailOfUser1);
         
-            // Log all user data
+            
             Object.entries(data).forEach(([userId, user]) => {
               console.log(`User ID: ${userId}, Username: ${user.email}, Password: ${user.password}`);
             });
         
-            // Continue with other logic
+           
           } catch (error) {
             console.error('Error fetching data from Firebase:', error);
           }
         };
     
         fetchData();
-      }, []); // Empty dependency array ensures this effect runs only once when the component mounts
+      }, []); 
     
       const handleLogin = async () => {
         try {
           console.log('Input username:', email);
           console.log('Input password:', password);
       
-          // Use Firebase's signInWithEmailAndPassword method
+          
           const userCredential = await signInWithEmailAndPassword(auth, email, password);
           
           alert('Login successful!');
           console.log('Login successful!');
           
-          // Rest of your login logic if needed
+        
           
-          setIsLoggedIn(true); // Update login status
+          setIsLoggedIn(true); 
           setShowLoginModal(false);
         } catch (error) {
           console.error('Error logging in:', error.code, error.message);
@@ -89,15 +89,15 @@ const [newPassword, setNewPassword] = useState('');
       const handleSignUp = async () => {
         try {
           const newUser = {
-            email: newEmail.trim(), // Trim leading/trailing spaces
+            email: newEmail.trim(), 
             password: newPassword,
           };
       
-          // Log the email to check if it's set correctly
+          
           console.log('Email before sign-up:', newUser.email);
       
           if (!newUser.email) {
-            // Handle case where email is empty
+            
             console.error('Email is empty');
             return;
           }
@@ -114,7 +114,7 @@ const [newPassword, setNewPassword] = useState('');
         } catch (error) {
           console.error('Error signing up:', error);
       
-          // Display the specific error message to the user
+          
           alert(`Sign-up failed: ${error.message}`);
         }
       };
@@ -124,7 +124,7 @@ const [newPassword, setNewPassword] = useState('');
 
 
       const handleLogout = () => {
-        // Clear user data and update login status
+        
         setUserData(userData);
         setIsLoggedIn(false);
       };
@@ -141,7 +141,7 @@ const [newPassword, setNewPassword] = useState('');
   
       if (response.ok) {
         alert('Form submitted successfully!');
-        // Optionally, reset the form data
+        
         setContactFormData({
           name: '',
           email: '',
@@ -173,7 +173,7 @@ const [newPassword, setNewPassword] = useState('');
 <body>
     <header>
         <nav>
-            <img src="logo3.0.png" alt="Company Logo"/>
+            <img src="logo_book.jpg" alt="Company Logo"/>
             <ul>
                 <li><a href="#top">Home</a></li>
                 <li><a href="#about">About</a></li>
@@ -186,7 +186,7 @@ const [newPassword, setNewPassword] = useState('');
                     {isSignUp ? 'Sign Up' : 'Login'}
                   </button>
                 ) : (
-                  // Render a logout button or user profile if logged in
+                  
                   <button className="logout-button" onClick={handleLogout}>
                     Logout
                   </button>
@@ -199,7 +199,7 @@ const [newPassword, setNewPassword] = useState('');
       
       
   
-{/* Login modal */}
+{/* Login  */}
 {showLoginModal && (
         <div className="modal">
           <div className="modal-content">
@@ -218,19 +218,19 @@ const [newPassword, setNewPassword] = useState('');
                 onChange={(e) => setPassword(e.target.value)}
               />
               <button type="submit">Login</button>
-              <button type="button" onClick={openSignUpModal}>Sign Up</button>
+              
             </form>
           </div>
         </div>
       )}
 
-      {/* Sign-up modal */}
+      {/* Sign-up  */}
       {showSignUpModal && (
         <div className="modal">
           <div className="modal-content">
             <span className="close" onClick={closeSignUpModal}>&times;</span>
             <form onSubmit={(e) => { e.preventDefault(); handleSignUp(); }}>
-              {/* Add fields for sign-up (e.g., username and password) */}
+              {/* username and password) */}
               <input
     type="email"
     placeholder="Email"
