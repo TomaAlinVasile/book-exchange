@@ -1,34 +1,46 @@
 import React, { useState, useEffect } from 'react';
-import { db } from '../firebase2';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../firebase3';
+import { ref, push, onValue } from 'firebase/database';
+import { auth } from '../firebase'; 
+
 const Book2 = () => {
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState('');
-
-  useEffect(() => {
-    const chatRef = collection(db, 'books', 'book1', 'chat');
-
-    // ... rest of the code
-  }, []);
-
-  const sendMessage = async (e) => {
-    e.preventDefault(); 
-    console.log('Sending message:', newMessage);
+    const [messages, setMessages] = useState([]);
+    const [newMessage, setNewMessage] = useState('');
   
-    if (newMessage.trim() !== '') {
-      try {
-        await addDoc(collection(db, 'books', 'book1', 'chat'), {
-          text: newMessage,
-          timestamp: serverTimestamp(),
+    useEffect(() => {
+        
+        const chatRef = ref(db, 'books/book2/chat');
+  
+        
+        const unsubscribe = onValue(chatRef, (snapshot) => {
+          const messagesData = snapshot.val();
+          const messagesArray = messagesData ? Object.values(messagesData) : [];
+          setMessages(messagesArray);
         });
   
-        console.log('Message sent successfully');
-        setNewMessage('');
-      } catch (error) {
-        console.error('Error sending message:', error.message);
-      }
-    }
-  };
+        
+        return () => {
+          unsubscribe();
+        };
+      }, []); 
+  
+      const sendMessage = async (e) => {
+        e.preventDefault();
+  
+        if (newMessage.trim() !== '') {
+          try {
+           
+            await push(ref(db, 'books/book2/chat'), {
+              text: newMessage,
+              timestamp: Date.now(),
+            });
+  
+            setNewMessage('');
+          } catch (error) {
+            console.error('Error sending message:', error.message);
+          }
+        }
+      };
 
 
 
@@ -44,10 +56,10 @@ const Book2 = () => {
 <body>
 
 <header>
-                    <h3>Sapiens:</h3>
-                    <h3> A Brief History of Humankind</h3>
+                    
+                    <h3> Thinking, Fast and Slow</h3>
                     <nav>
-                    <img src="logo3.0.png" alt="Company Logo"/>
+                    <img src="logo_book.jpg" alt="Company Logo"/>
                         <ul>
                             <li><a href="home">Home</a></li>
 
@@ -65,8 +77,7 @@ const Book2 = () => {
             <p>Author: Daniel Kahneman</p>
             <p>Genre: Non-Fiction</p>
             <p>Year: 2011</p>
-            <p>Description: The book, focusing on Homo sapiens,
-               surveys the history of humankind</p>
+            <p>Description: The book's main thesis is a differentiation between two modes of thought:</p>
         </section>
 
 
@@ -76,25 +87,31 @@ const Book2 = () => {
 
 
 
- {/* Live Chat Section */}
+ {/* Live Chat */}
+
+ 
  <section className="live-chat">
-        <h2>Live Chat</h2>
-        <div id="chat-messages">
-          {messages.map((message, index) => (
-            <div key={index}>{message.text}</div>
-          ))}
-        </div>
-        <input
-          type="text"
-          id="message-input"
-          placeholder="Type your message"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-        />
-        <button onClick={sendMessage}>Send</button>
-      </section>
+ <h2>Live Chat</h2>
+          <div id="chat-messages" className="message-box">
+            {messages.map((message, index) => (
+              <div key={index} className="message">
+                <p>{message.text}</p>
+              </div>
+            ))}
+          </div>
+          <form onSubmit={sendMessage} className="message-input-form">
+            <input
+              type="text"
+              id="message-input"
+              placeholder="Type your message"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+            />
+            <button type="submit">Send</button>
+          </form>
+        </section>
       <footer>
-        <p>Copyright &copy; Book Title 1 2023</p>
+      <p>Copyright &copy; Book Exchange 2023</p>
     </footer>
 </body>
 </html>
