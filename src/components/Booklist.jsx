@@ -13,7 +13,7 @@ const Booklist = () => {
                 <header>
                     <h1>Book List</h1>
                     <nav>
-                    <img src="logo3.0.png" alt="Company Logo"/>
+                    <img src="logo_book.jpg" alt="Company Logo"/>
                         <ul>
                             <li><a href="home">Home</a></li>
                             <li><a href="#about">About</a></li>
@@ -43,7 +43,7 @@ const Booklist = () => {
             </main>
 
             <footer>
-                <p>Copyright &copy; Book List 2023</p>
+            <p>Copyright &copy; Book Exchange 2023</p>
             </footer>
 
             </body>
