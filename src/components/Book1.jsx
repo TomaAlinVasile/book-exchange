@@ -1,34 +1,44 @@
 import React, { useState, useEffect } from 'react';
-import { db } from '../firebase2';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../firebase3';
+import { ref, push, onValue } from 'firebase/database';
 const Book1 = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
 
   useEffect(() => {
-    const chatRef = collection(db, 'books', 'book1', 'chat');
+      
+      const chatRef = ref(db, 'books/book2/chat');
 
-    // ... rest of the code
-  }, []);
+      
+      const unsubscribe = onValue(chatRef, (snapshot) => {
+        const messagesData = snapshot.val();
+        const messagesArray = messagesData ? Object.values(messagesData) : [];
+        setMessages(messagesArray);
+      });
 
-  const sendMessage = async (e) => {
-    e.preventDefault(); 
-    console.log('Sending message:', newMessage);
-  
-    if (newMessage.trim() !== '') {
-      try {
-        await addDoc(collection(db, 'books', 'book1', 'chat'), {
-          text: newMessage,
-          timestamp: serverTimestamp(),
-        });
-  
-        console.log('Message sent successfully');
-        setNewMessage('');
-      } catch (error) {
-        console.error('Error sending message:', error.message);
+      
+      return () => {
+        unsubscribe();
+      };
+    }, []); 
+
+    const sendMessage = async (e) => {
+      e.preventDefault();
+
+      if (newMessage.trim() !== '') {
+        try {
+          
+          await push(ref(db, 'books/book2/chat'), {
+            text: newMessage,
+            timestamp: Date.now(),
+          });
+
+          setNewMessage('');
+        } catch (error) {
+          console.error('Error sending message:', error.message);
+        }
       }
-    }
-  };
+    };
 
 
 
@@ -47,7 +57,7 @@ const Book1 = () => {
   <h3>Sapiens:</h3>
                     <h3> A Brief History of Humankind</h3>
                     <nav>
-                    <img src="logo3.0.png" alt="Company Logo"/>
+                    <img src="logo_book.jpg" alt="Company Logo"/>
                         <ul>
                             <li><a href="home">Home</a></li>
 
@@ -76,25 +86,29 @@ const Book1 = () => {
 
 
 
- {/* Live Chat Section */}
+ {/* Live Chat  */}
  <section className="live-chat">
-        <h2>Live Chat</h2>
-        <div id="chat-messages">
-          {messages.map((message, index) => (
-            <div key={index}>{message.text}</div>
-          ))}
-        </div>
-        <input
-          type="text"
-          id="message-input"
-          placeholder="Type your message"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-        />
-        <button onClick={sendMessage}>Send</button>
-      </section>
+ <h2>Live Chat</h2>
+          <div id="chat-messages" className="message-box">
+            {messages.map((message, index) => (
+              <div key={index} className="message">
+                <p>{message.text}</p>
+              </div>
+            ))}
+          </div>
+          <form onSubmit={sendMessage} className="message-input-form">
+            <input
+              type="text"
+              id="message-input"
+              placeholder="Type your message"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+            />
+            <button type="submit">Send</button>
+          </form>
+        </section>
       <footer>
-        <p>Copyright &copy; Book Title 1 2023</p>
+      <p>Copyright &copy; Book Exchange 2023</p>
     </footer>
 </body>
 </html>
