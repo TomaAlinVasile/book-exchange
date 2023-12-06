@@ -5,7 +5,7 @@ from flask_mail import Mail, Message
 app = Flask(__name__)
 CORS(app)
 
-# Configure Flask-Mail
+
 app.config['MAIL_SERVER'] = 'smtp.office365.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
@@ -29,10 +29,10 @@ def submit_form():
 
     try:
         data = request.get_json()
-        # Process the form data as needed
+        
         print(data)
 
-        # Send a confirmation email
+        
         send_confirmation_email(data['email'])
 
         return jsonify({'message': 'Form submitted successfully!'}), 200
